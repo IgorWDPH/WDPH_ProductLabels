@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="WDPH_ProductLabels::6_wdph_productlabels_settings" title="Product Labels" module="WDPH_ProductLabels" sortOrder="60" action="wdph_productlabels/index/index" parent="WDPH_Base::0_wdph" resource="WDPH_ProductLabels::main_settings" />
+	</menu>
+</config>

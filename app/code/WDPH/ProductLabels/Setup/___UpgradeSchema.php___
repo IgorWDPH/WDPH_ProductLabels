@@ -1,0 +1,145 @@
+<?php
+namespace Mageplaza\HelloWorld\Setup;
+
+use Magento\Framework\Setup\UpgradeSchemaInterface;
+use Magento\Framework\Setup\SchemaSetupInterface;
+use Magento\Framework\Setup\ModuleContextInterface;
+
+class UpgradeSchema implements UpgradeSchemaInterface
+{
+	public function upgrade( SchemaSetupInterface $setup, ModuleContextInterface $context ) {
+		$installer = $setup;
+
+		$installer->startSetup();
+
+		if(version_compare($context->getVersion(), '1.1.0', '<'))
+		{
+			if(!$installer->tableExists('wdph_productlabels'))
+			{
+				$table = $installer->getConnection()->newTable($installer->getTable('wdph_productlabels'))
+					->addColumn(
+						'label_id',
+						\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+						null,
+						[
+							'identity' => true,
+							'nullable' => false,
+							'primary'  => true,
+							'unsigned' => true,
+						],
+						'Label ID'
+					)
+					->addColumn(
+						'label_text',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+						255,
+						['nullable => false'],
+						'Label Text'
+					)//
+					/*->addColumn(
+						'post_content',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+						'64k',
+						[],
+						'Post Post Content'
+					)*/			
+					->addColumn(
+						'label_status',
+						\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+						1,
+						[],
+						'Label Enabled'
+					)
+					->addColumn(
+						'show_on_product_view_page',
+						\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+						1,
+						[],
+						'Show on product view page'
+					)
+					->addColumn(
+						'show_on_product_list_page',
+						\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+						1,
+						[],
+						'Show on product list page'
+					)
+					->addColumn(
+						'show_on_product_list_page',
+						\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+						1,
+						[],
+						'Show on product list page'
+					)
+					->addColumn(
+						'active_from',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+						null,
+						[],
+						'Active From'
+					)
+					->addColumn(
+						'active_to',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+						null,
+						[],
+						'Active To'
+					)
+					->addColumn(
+						'width',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+						255,
+						['nullable => false'],
+						'Label width'
+					)
+					->addColumn(
+						'height',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+						255,
+						['nullable => false'],
+						'Label height'
+					)
+					->addColumn(
+						'back_color',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+						255,
+						['nullable => false'],
+						'Label Background Color'
+					)
+					->addColumn(
+						'font_color',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+						255,
+						['nullable => false'],
+						'Label Font Color'
+					)
+					->addColumn(
+						'image',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+						'64k',
+						[],
+						'Label Background Image'
+					)
+					->addColumn(
+						'custom_css',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+						'64k',
+						[],
+						'Label Custom Styles'
+					)
+					/*->addColumn(
+						'created_at',
+						\Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+						null,
+						['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
+						'Created At')*/				
+					->setComment('Labels Table');
+				$installer->getConnection()->createTable($table);
+				$installer->getConnection()->addIndex($installer->getTable('wdph_productlabels'), $setup->getIdxName($installer->getTable('wdph_productlabels'), ['label_status', 'label_text', 'show_on_product_view_page', 'show_on_product_list_page', 'active_from', 'active_to', 'width', 'height', 'back_color', 'font_color', 'image', 'custom_css'], \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_FULLTEXT), ['label_status', 'label_text', 'show_on_product_view_page', 'show_on_product_list_page', 'active_from', 'active_to', 'width', 'height', 'back_color', 'font_color', 'image', 'custom_css'], \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_FULLTEXT);
+			}
+		}
+
+		$installer->endSetup();
+	}
+}
+?>
