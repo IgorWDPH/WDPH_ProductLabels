@@ -1,5 +1,5 @@
 <?php 
-namespace WDPH\ProductLabels\Block\Adminhtml\LabelsGrid;
+namespace WDPH\ProductLabels\Block\Adminhtml\Grid;
  
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {    

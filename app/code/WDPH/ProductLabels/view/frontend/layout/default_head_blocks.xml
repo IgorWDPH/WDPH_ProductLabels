@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="WDPH_ProductLabels::css/wdph_productlabels_local.css"/>
+		<css src="WDPH_ProductLabels::css/wdph_productlabels_responsive.css"/>
+		<css src="WDPH_ProductLabels::css/wdph_productlabels_customization.css"/>
+        <link src="WDPH_ProductLabels::js/wdph_productlabels_main.js"/>
+		<link src="WDPH_ProductLabels::js/wdph_productlabels_customization.js"/>
+	</head>    
+</page>

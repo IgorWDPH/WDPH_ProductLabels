@@ -13,8 +13,7 @@ class Delete extends \Magento\Backend\App\Action
     
     public function execute()
     {
-        $id = $this->getRequest()->getParam('label_id');
-		die(print_r($this->getRequest()->getParams(), true));
+        $id = $this->getRequest()->getParam('label_id');		
         if($id)
 		{			
             try

@@ -59,7 +59,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             [
                 'label' => __('Status'),
                 'title' => __('Status'),
-                'name' => 'label_status',
+                'name' => 'label_attr',
                 'required' => true,
 				'style'     => 'width:250px;',				
                 'options' => $this->getProductAttributesArray()
@@ -151,6 +151,16 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ['name' => 'position_right', 'label' => __('Position Right'), 'title' => __('Position Right'), 'required' => false, 'style' => 'width:100px;']
         );
 		$fieldset->addField(
+            'list_font_size',
+            'text',
+            ['name' => 'list_font_size', 'label' => __('Product List Label Font Size'), 'title' => __('Product List Label Font Size'), 'required' => false, 'style' => 'width:100px;']
+        );
+		$fieldset->addField(
+            'view_font_size',
+            'text',
+            ['name' => 'view_font_size', 'label' => __('Product View Label Font Size'), 'title' => __('Product View Label Font Size'), 'required' => false, 'style' => 'width:100px;']
+        );
+		$fieldset->addField(
             'back_color',
             'text',
             ['name' => 'back_color', 'class' => 'wdph-color-picker', 'label' => __('Label Background Color'), 'title' => __('Label Background Color'), 'required' => false, 'style' => 'width:250px;']
@@ -190,7 +200,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 			->setOrder('frontend_label','ASC');			
 		if(empty($attributes)) return false;
 		$result = array();
-		$result[0] = 'No attribute';
+		$result[''] = 'No attribute';
 		foreach($attributes as $attribute)
 		{
 			$result[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();

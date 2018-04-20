@@ -119,6 +119,20 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
 					'Right position'
 				)
 				->addColumn(
+					'list_font_size',
+					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					255,
+					[],
+					'Product List Label Font Size'
+				)
+				->addColumn(
+					'view_font_size',
+					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					255,
+					[],
+					'Product View Label Font Size'
+				)
+				->addColumn(
 					'back_color',
 					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
 					255,

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<css src="WDPH_ProductLabels::css/wdph_productlabels_view.css"/>		
+		<link src="WDPH_ProductLabels::js/wdph_productlabels_view.js"/>
+	</head>    
+</page>

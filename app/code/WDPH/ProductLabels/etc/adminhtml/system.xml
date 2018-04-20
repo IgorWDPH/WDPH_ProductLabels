@@ -3,7 +3,7 @@
 	<system>		
 		<section id="wdph_productlabels_main" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
 			<class>separator-top</class>
-			<label>Product Labels</label>
+			<label>Product Labels Settings</label>
 			<tab>wdph_main</tab>
 			<resource>WDPH_ProductLabels::main_settings</resource>
 			<group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -11,7 +11,43 @@
                     <label>Product Labels Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-			</group>
+				<field id="default_top" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Label Top Position</label>
+                    <comment></comment>
+                </field>
+				<field id="default_bottom" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Label Bottom Position</label>
+                    <comment></comment>
+                </field>
+				<field id="default_left" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Label Left Position</label>
+                    <comment></comment>
+                </field>
+				<field id="default_right" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Label Right Position</label>
+                    <comment></comment>
+                </field>
+				<field id="default_list_font_size" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Product List Label Font Size</label>
+                    <comment></comment>
+                </field>
+				<field id="default_view_font_size" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Product View Label Font Size</label>
+                    <comment></comment>
+                </field>
+				<field id="default_background_color" translate="label comment" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Label Background Color</label>
+					<frontend_model>WDPH\ProductLabels\Block\System\Config\Color</frontend_model>
+                </field>
+				<field id="default_font_color" translate="label comment" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Label Font Color</label>
+					<frontend_model>WDPH\ProductLabels\Block\System\Config\Color</frontend_model>
+                </field>
+				<field id="common_custom_css" translate="label comment" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Styles</label>
+					<comment></comment>
+                </field>
+			</group>			
 		</section>
 	</system>
 </config>
