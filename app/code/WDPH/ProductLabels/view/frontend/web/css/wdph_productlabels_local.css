@@ -1,2 +1,2 @@
-.page-products .product-item-info, .page-products .product-item-info a.product-item-photo { position: relative; }
-.wdph-product-label { position: absolute; }
+.page-products .product-item-info, .page-products .product-item-info a.product-item-photo { position: relative; display: block; }
+.wdph-product-label { position: absolute; text-align: center; }

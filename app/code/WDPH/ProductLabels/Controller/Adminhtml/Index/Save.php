@@ -7,11 +7,14 @@ class Save extends \Magento\Backend\App\Action
 {    
     protected $cacheTypeList; 
     protected $jsHelper;
+	protected $labelsMainHelper;
     
     public function __construct(Action\Context $context,
 								\Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-								\Magento\Backend\Helper\Js $jsHelper)
+								\Magento\Backend\Helper\Js $jsHelper,
+								\WDPH\ProductLabels\Helper\Data $labelsMainHelper)
     {
+		$this->labelsMainHelper = $labelsMainHelper;
         $this->cacheTypeList = $cacheTypeList;
         parent::__construct($context);
         $this->jsHelper = $jsHelper;
@@ -44,10 +47,10 @@ class Save extends \Magento\Backend\App\Action
 					$uploader->setAllowRenameFiles(false);
 					$uploader->setFilesDispersion(false);
 					$mediaDirectory = $this->_objectManager->get('\Magento\Framework\Filesystem')->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
-					$result = $uploader->save($mediaDirectory->getAbsolutePath('wdph_labels'));
+					$result = $uploader->save($mediaDirectory->getAbsolutePath($this->labelsMainHelper->getLabelsMediaDir()));
 					if($result['error'] == 0)
 					{
-						$data['image'] = 'wdph_labels/' . $result['file'];
+						$data['image'] = $this->labelsMainHelper->getLabelsMediaDir() . DIRECTORY_SEPARATOR . $result['file'];
 					}					
 				}
 				else

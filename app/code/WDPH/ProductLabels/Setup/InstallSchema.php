@@ -77,18 +77,32 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
 					'Active To'
 				)
 				->addColumn(
-					'width',
+					'width_list',
 					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
 					255,
 					[],
-					'Label width'
+					'Product List Label width'
 				)
 				->addColumn(
-					'height',
+					'height_list',
 					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
 					255,
 					[],
-					'Label height'
+					'Product List Label height'
+				)
+				->addColumn(
+					'width_view',
+					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					255,
+					[],
+					'Product View Label width'
+				)
+				->addColumn(
+					'height_view',
+					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					255,
+					[],
+					'Product View Label height'
 				)
 				->addColumn(
 					'position_top',

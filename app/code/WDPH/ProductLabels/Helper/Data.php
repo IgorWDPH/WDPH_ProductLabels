@@ -14,15 +14,16 @@ class Data extends AbstractHelper
 	protected $labelsModelFactory;
 	protected $eavAttribute;
 	
-	const DATA_TIME_FORMAT = 'Y-m-d g:i:s';	
+	const DATA_TIME_FORMAT = 'Y-m-d g:i:s';
 	const XML_PATH_MEGAMENU = 'wdph_productlabels_main/';
 	const RANDOM_CHARLIST = 'abcdefghijklmnopqrstuvwxyz';
 	const MAIN_LABEL_CLASS = 'wdph-product-label';
+	const LABELS_MEDIA_DIR = 'wdph_labels';	
 
     public function __construct(Context $context,
 								ObjectManagerInterface $objectManager,
 								StoreManagerInterface $storeManager,
-								\Magento\Eav\Model\Config $eavAttribute,
+								\Magento\Eav\Model\Config $eavAttribute,								
 								\WDPH\ProductLabels\Model\ResourceModel\LabelsGrid\CollectionFactory $labelsModelFactory)
 	{
         $this->objectManager = $objectManager;
@@ -31,6 +32,11 @@ class Data extends AbstractHelper
 		$this->labelsModelFactory = $labelsModelFactory;
         parent::__construct($context);
     }
+	
+	public function getLabelsMediaDir()
+	{
+		return self::LABELS_MEDIA_DIR;
+	}
 	
 	public function getConfig($config_path, $storeCode = null)
     {
@@ -103,9 +109,16 @@ class Data extends AbstractHelper
 		$defaultConfigs = $this->getConfig('general');
 		$result = 'style="';
 		$additionalAttr = '';
+		//Background Image
+		if($labelItem['image'])
+		{
+			$mediaDirectory = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+			$result .= 'background-image: url(' . $mediaDirectory . $labelItem['image'] . ');';
+		}		
+		//Position Bottom/Top
 		if(trim($labelItem['position_bottom']))
 		{
-			$additionalAttr .= 'bottom ';
+			$additionalAttr .= 'bottom="' . $labelItem['position_bottom'] . '"';
 			$result .= 'bottom: ' . $labelItem['position_bottom'] . ';';
 		}
 		elseif(trim($labelItem['position_top']))
@@ -115,7 +128,7 @@ class Data extends AbstractHelper
 		}
 		elseif(trim($defaultConfigs['default_bottom']))
 		{
-			$additionalAttr .= 'bottom ';
+			$additionalAttr .= 'bottom="' . $labelItem['position_bottom'] . '"';
 			$result .= 'bottom: ' . $defaultConfigs['default_bottom'] . ';';
 		}
 		elseif(trim($defaultConfigs['default_top']))
@@ -128,6 +141,7 @@ class Data extends AbstractHelper
 			$additionalAttr .= 'top ';
 			$result .= 'top: 0;';
 		}
+		//Position Right/Left
 		if(trim($labelItem['position_right']))
 		{
 			$additionalAttr .= 'right ';
@@ -152,9 +166,31 @@ class Data extends AbstractHelper
 		{
 			$additionalAttr .= 'left ';
 			$result .= 'left: 0;';
-		}		
+		}
+		//Font size for list/view page
 		if($target == 'show_on_product_list_page')
 		{
+			//Width
+			if(trim($labelItem['width_list']))
+			{
+				$result .= 'width: ' . $labelItem['width_list'] . ';';
+			}
+			elseif(trim($defaultConfigs['default_width_list']))
+			{
+				$result .= 'width: ' . $defaultConfigs['default_width_list'] . ';';
+			}
+			//Height
+			if(trim($labelItem['height_list']))
+			{
+				$result .= 'height: ' . $labelItem['height_list'] . ';';
+				$result .= 'line-height:' . $labelItem['height_list'] . ';';
+			}
+			elseif(trim($defaultConfigs['default_height_list']))
+			{
+				$result .= 'height: ' . $defaultConfigs['default_height_list'] . ';';
+				$result .= 'line-height:' . $defaultConfigs['default_height_list'] . ';';
+			}
+			//Font size
 			if(trim($labelItem['list_font_size']))
 			{
 				$result .= 'font-size: ' . $labelItem['list_font_size'] . ';';
@@ -166,6 +202,27 @@ class Data extends AbstractHelper
 		}
 		elseif($target == 'show_on_product_view_page')
 		{
+			//Width
+			if(trim($labelItem['width_view']))
+			{
+				$result .= 'width: ' . $labelItem['width_view'] . ';';
+			}
+			elseif(trim($defaultConfigs['default_width_view']))
+			{
+				$result .= 'width: ' . $defaultConfigs['default_width_view'] . ';';
+			}
+			//Height
+			if(trim($labelItem['height_view']))
+			{
+				$result .= 'height: ' . $labelItem['height_view'] . ';';
+				$result .= 'line-height:' . $labelItem['height_view'] . ';';
+			}
+			elseif(trim($defaultConfigs['default_height_view']))
+			{
+				$result .= 'height: ' . $defaultConfigs['default_height_view'] . ';';
+				$result .= 'line-height:' . $defaultConfigs['default_height_view'] . ';';
+			}
+			//Font size
 			if(trim($labelItem['view_font_size']))
 			{
 				$result .= 'font-size: ' . $labelItem['view_font_size'] . ';';
@@ -174,7 +231,8 @@ class Data extends AbstractHelper
 			{
 				$result .= 'font-size: ' . $defaultConfigs['default_view_font_size'] . ';';
 			}
-		}		
+		}
+		//Background color
 		if(trim($labelItem['back_color']))
 		{
 			$result .= 'background-color: ' . $labelItem['back_color'] . ';';
@@ -183,6 +241,7 @@ class Data extends AbstractHelper
 		{
 			$result .= 'background-color: ' . $defaultConfigs['default_background_color'] . ';';
 		}
+		//Font color
 		if(trim($labelItem['font_color']))
 		{
 			$result .= 'color: ' . $labelItem['font_color'] . ';';

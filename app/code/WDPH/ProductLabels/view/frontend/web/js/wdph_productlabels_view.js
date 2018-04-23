@@ -4,12 +4,13 @@ require(['jquery'], function($, gallery)
 	{
 		$(this).on('fotorama:ready', function()
 		{
+			var bottom = $('.fotorama__wrap').innerHeight() - $('.fotorama__wrap .fotorama__stage').height();			
 			$('.wdph-product-label').each(function()
 			{
-				var attrBottom = $(this).attr('bottom');				
+				var attrBottom = $(this).attr('bottom');
 				if(typeof attrBottom !== typeof undefined && attrBottom !== false)
 				{
-					console.log($('.product.media .gallery-placeholder .fotorama__wrap').innerHeight());
+					$(this).css('bottom', parseInt($(this).attr('bottom'), 10) + bottom + 'px');
 				}
 			});
 			console.log('gallery ready!');
