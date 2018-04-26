@@ -1,2 +1,2 @@
 .page-products .product-item-info, .page-products .product-item-info a.product-item-photo { position: relative; display: block; }
-.wdph-product-label { position: absolute; text-align: center; }
+.wdph-product-label { position: absolute; text-align: center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; }

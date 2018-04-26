@@ -15,6 +15,16 @@ class LabelsGrid extends \Magento\Framework\Model\AbstractModel implements \Mage
 	{
 		$this->_init('WDPH\ProductLabels\Model\ResourceModel\LabelsGrid');
 	}
+	
+	protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
+	{
+		/*if (!$object->getIsMassStatus())
+		{
+			//$this->saveStore($object);
+		}*/
+		die('from after save');
+		return parent::_afterSave($object);
+	}
 
 	public function getIdentities()
 	{

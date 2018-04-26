@@ -14,5 +14,10 @@ class LabelsGrid extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 		$this->_init('wdph_productlabels', 'label_id');
 	}
 	
+	protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
+	{
+		$object->setData('store_ids', implode(',', $object->getData('store_ids')));
+		return parent::_beforeSave($object);
+	}	
 }
 ?>

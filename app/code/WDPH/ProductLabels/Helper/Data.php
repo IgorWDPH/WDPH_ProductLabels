@@ -13,19 +13,21 @@ class Data extends AbstractHelper
     protected $objectManager;
 	protected $labelsModelFactory;
 	protected $eavAttribute;
+	protected $localeDate;
 	
-	const DATA_TIME_FORMAT = 'Y-m-d g:i:s';
 	const XML_PATH_MEGAMENU = 'wdph_productlabels_main/';
 	const RANDOM_CHARLIST = 'abcdefghijklmnopqrstuvwxyz';
 	const MAIN_LABEL_CLASS = 'wdph-product-label';
-	const LABELS_MEDIA_DIR = 'wdph_labels';	
+	const LABELS_MEDIA_DIR = 'wdph_labels';
 
     public function __construct(Context $context,
 								ObjectManagerInterface $objectManager,
 								StoreManagerInterface $storeManager,
-								\Magento\Eav\Model\Config $eavAttribute,								
+								\Magento\Eav\Model\Config $eavAttribute,
+								\Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
 								\WDPH\ProductLabels\Model\ResourceModel\LabelsGrid\CollectionFactory $labelsModelFactory)
 	{
+		$this->localeDate = $localeDate;
         $this->objectManager = $objectManager;
         $this->storeManager  = $storeManager;
 		$this->eavAttribute = $eavAttribute;
@@ -44,61 +46,81 @@ class Data extends AbstractHelper
     }
 	
 	public function getProductLabels($product, $target)
-	{
+	{		
+		if(!$this->getConfig('general/enabled') || !$product->getId())
+		{
+			return '';
+		}
 		$collection = $this->labelsModelFactory->create();
 		$labels = '';
 		$styles = '';
+		$currentStoreId = $this->storeManager->getStore()->getStoreId();		
 		foreach($collection as $item)
-		{			
-			if(!$item['label_status'] || !$item[$target] || !$item['label_attr'])
+		{					
+			if(!$item['label_status'] || !$item[$target])
 			{
 				continue;
 			}
-			if($item['active_from'] || $item['active_to'])
-			{				
-				$current = time();
-				$from = $current;
-				$to = $current;
-				if($item['active_from'])
-				{
-					$from = date_create_from_format(self::DATA_TIME_FORMAT, $item['active_from'])->format("U") . '<br>';
-				}				
-				if($item['active_to'])
-				{
-					$to = date_create_from_format(self::DATA_TIME_FORMAT, $item['active_to'])->format("U") . '<br>';
-				}
-				if($from < $to && ($current < $from || $current > $to))
-				{
-					continue;
-				}
-			}
-			$attribute = $this->eavAttribute->getAttribute('catalog_product', $item['label_attr']);
-			if(!$attribute->getId())
+			$labelStores = explode(',', $item['store_ids']);			
+			if(!in_array(0, $labelStores) && !in_array($currentStoreId, $labelStores))
+			{
+				continue;
+			}			
+			if(($item['active_from'] || $item['active_to']) && !$this->localeDate->isScopeDateInInterval($product->getStore(), $item['active_from'], $item['active_to']))
 			{
 				continue;
 			}
-			$id = \Zend\Math\Rand::getString(32, self::RANDOM_CHARLIST, true);			
+			$id = \Zend\Math\Rand::getString(32, self::RANDOM_CHARLIST, true);
 			$customLabelStyles = '#' . $id . ' {' . $item['custom_css'] . '}';
-			if($attribute->getFrontendInput() == 'select')
+			if($item['new_label'])
 			{
-				$attr_value = $product->getResource()->getAttribute($item['label_attr']);
-				if(!$attr_value || $attr_value->getFrontend()->getValue($product) == 'No')
+				if($this->isProductNew($product))
+				{					
+					$labels .= '<div id="' . $id . '" class="' . self::MAIN_LABEL_CLASS . '"' . $this->getLabelStyles($item, $target) . '>' . $item['label_text'] . '</div>';
+					$styles .= $customLabelStyles;
+				}
+				
+			}
+			elseif($item['sale_label'])
+			{
+				if($product->getSpecialPrice())
+				{
+					$labels .= '<div id="' . $id . '" class="' . self::MAIN_LABEL_CLASS . '"' . $this->getLabelStyles($item, $target) . '>' . $item['label_text'] . '</div>';
+					$styles .= $customLabelStyles;
+				}
+			}
+			else
+			{
+				if(!$item['label_attr'])
 				{
 					continue;
 				}
-				$labels .= '<div id="' . $id . '" class="' . self::MAIN_LABEL_CLASS . '" ' . $this->getLabelStyles($item, $target) . '>' . $attr_value->getFrontend()->getValue($product) . '</div>';
-				$styles .= $customLabelStyles;
-			}
-			elseif($attribute->getFrontendInput() == 'boolean')
-			{
-				$attr_value = $product->getResource()->getAttribute($item['label_attr']);
-				if(!$attr_value || $attr_value->getFrontend()->getValue($product) == 'No' || !trim($item->getData('label_text')))
+				$attribute = $this->eavAttribute->getAttribute('catalog_product', $item['label_attr']);			
+				if(!$attribute->getId())
 				{
 					continue;
+				}									
+				if($attribute->getFrontendInput() == 'select')
+				{
+					$attr_value = $product->getResource()->getAttribute($item['label_attr']);
+					if(!$attr_value || $attr_value->getFrontend()->getValue($product) == 'No')
+					{
+						continue;
+					}
+					$labels .= '<div id="' . $id . '" class="' . self::MAIN_LABEL_CLASS . '" ' . $this->getLabelStyles($item, $target) . '>' . $attr_value->getFrontend()->getValue($product) . '</div>';
+					$styles .= $customLabelStyles;
 				}
-				$labels .= '<div id="' . $id . '" class="' . self::MAIN_LABEL_CLASS . '"' . $this->getLabelStyles($item, $target) . '>' . $item->getData('label_text') . '</div>';
-				$styles .= $customLabelStyles;				
-			}
+				elseif($attribute->getFrontendInput() == 'boolean')
+				{
+					$attr_value = $product->getResource()->getAttribute($item['label_attr']);
+					if(!$attr_value || $attr_value->getFrontend()->getValue($product) == 'No' || !trim($item->getData('label_text')))
+					{
+						continue;
+					}
+					$labels .= '<div id="' . $id . '" class="' . self::MAIN_LABEL_CLASS . '"' . $this->getLabelStyles($item, $target) . '>' . $item->getData('label_text') . '</div>';
+					$styles .= $customLabelStyles;				
+				}
+			}			
 		}
 		$labels = $labels . '<style type="text/css">' . '.' . self::MAIN_LABEL_CLASS . ' {' . $this->getConfig('general/common_custom_css') . '} ' . $styles . '</style>';
 		return $labels;
@@ -128,7 +150,7 @@ class Data extends AbstractHelper
 		}
 		elseif(trim($defaultConfigs['default_bottom']))
 		{
-			$additionalAttr .= 'bottom="' . $labelItem['position_bottom'] . '"';
+			$additionalAttr .= 'bottom="' . $defaultConfigs['default_bottom'] . '"';
 			$result .= 'bottom: ' . $defaultConfigs['default_bottom'] . ';';
 		}
 		elseif(trim($defaultConfigs['default_top']))
@@ -253,5 +275,16 @@ class Data extends AbstractHelper
 		$result = $additionalAttr . $result . '"';
 		return $result;
 	}
+	
+	public function isProductNew($product)
+    {		
+        $newsFromDate = $product->getNewsFromDate();
+        $newsToDate = $product->getNewsToDate();		
+        if(!$newsFromDate && !$newsToDate)
+		{
+            return false;
+        }
+        return $this->localeDate->isScopeDateInInterval($product->getStore(), $newsFromDate, $newsToDate);
+    }
 }
 ?>

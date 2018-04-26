@@ -1,5 +1,5 @@
 require(['jquery'], function($, gallery)
-{
+{	
 	$('[data-gallery-role=gallery-placeholder]').on('gallery:loaded', function ()
 	{
 		$(this).on('fotorama:ready', function()
@@ -12,8 +12,7 @@ require(['jquery'], function($, gallery)
 				{
 					$(this).css('bottom', parseInt($(this).attr('bottom'), 10) + bottom + 'px');
 				}
-			});
-			console.log('gallery ready!');
+			});			
 		});
 	});
 });

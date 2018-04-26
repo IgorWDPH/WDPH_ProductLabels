@@ -12,8 +12,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 								\Magento\Framework\Registry $registry,
 								\Magento\Framework\Data\FormFactory $formFactory,
 								\Magento\Catalog\Model\ResourceModel\Eav\Attribute $attributeFactory,
-								\Magento\Store\Model\System\Store $systemStore,
-								\WDPH\ProductLabels\Helper\Data $labelsMainHelper,
+								\Magento\Store\Model\System\Store $systemStore,								
+								\WDPH\ProductLabels\Helper\Data $labelsMainHelper,								
 								array $data = [])
 	{
 		$this->labelsMainHelper = $labelsMainHelper;
@@ -73,6 +73,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             ['name' => 'label_name', 'label' => __('Label Name'), 'title' => __('Label Name'), 'style' => 'width:250px;', 'required' => true]
         );
+		$fieldset->addField(
+		   'store_ids',
+		   'multiselect',
+		   [
+			 'name'     => 'store_ids',
+			 'label'    => __('Store Views'),
+			 'title'    => __('Store Views'),
+			 'required' => true,
+			 'values'   => $this->_systemStore->getStoreValuesForForm(false, true)
+		   ]
+		);
         $fieldset->addField(
             'label_text',
             'text',
@@ -85,7 +96,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('Status'),
                 'title' => __('Status'),
                 'name' => 'label_attr',
-                'required' => true,
+                'required' => false,
 				'style'     => 'width:250px;',
                 'options' => $this->getProductAttributesArray()
             ]
@@ -119,6 +130,28 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('Show on product list page'),
                 'title' => __('Show on product list page'),
                 'name' => 'show_on_product_list_page',
+                'required' => true,
+                'options' => ['1' => __('Yes'), '0' => __('No')]
+            ]
+        );
+		$fieldset->addField(
+            'new_label',
+            'select',
+            [
+                'label' => __('New Product Label'),
+                'title' => __('New Product Label'),
+                'name' => 'new_label',
+                'required' => true,
+                'options' => ['1' => __('Yes'), '0' => __('No')]
+            ]
+        );
+		$fieldset->addField(
+            'sale_label',
+            'select',
+            [
+                'label' => __('Sale Product Label'),
+                'title' => __('Sale Product Label'),
+                'name' => 'sale_label',
                 'required' => true,
                 'options' => ['1' => __('Yes'), '0' => __('No')]
             ]

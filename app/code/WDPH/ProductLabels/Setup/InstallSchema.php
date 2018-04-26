@@ -31,6 +31,13 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
 					'Label Name'
 				)
 				->addColumn(
+					'store_ids',
+					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					255,
+					['nullable => false'],
+					'Store Views'
+				)
+				->addColumn(
 					'label_attr',
 					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
 					255,
@@ -61,7 +68,19 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
 					\Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
 					null,
 					['nullable' => false]					
-				)				
+				)
+				->addColumn(
+					'new_label',
+					\Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+					null,
+					['nullable' => false]					
+				)
+				->addColumn(
+					'sale_label',
+					\Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+					null,
+					['nullable' => false]					
+				)
 				->addColumn(
 					'active_from',
 					\Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,

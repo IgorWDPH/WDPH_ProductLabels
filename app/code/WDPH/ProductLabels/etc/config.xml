@@ -3,7 +3,20 @@
 	<default>
 		<wdph_productlabels_main>
 			<general>
-				<enabled>1</enabled>				
+				<enabled>1</enabled>
+				<default_width_list></default_width_list>
+				<default_height_list></default_height_list>
+				<default_width_view></default_width_view>
+				<default_height_view></default_height_view>
+				<default_top></default_top>
+				<default_bottom></default_bottom>
+				<default_left></default_left>
+				<default_right></default_right>
+				<default_list_font_size></default_list_font_size>
+				<default_view_font_size></default_view_font_size>
+				<default_background_color></default_background_color>
+				<default_font_color></default_font_color>
+				<common_custom_css></common_custom_css>
 			</general>			
 		</wdph_productlabels_main>
 	</default>
