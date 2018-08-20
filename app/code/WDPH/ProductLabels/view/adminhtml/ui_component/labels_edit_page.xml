@@ -1,0 +1,439 @@
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">labels_edit_page.labels_edit_form_data_source</item>
+            <item name="deps" xsi:type="string">labels_edit_page.labels_edit_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Label</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+		<item name="buttons" xsi:type="array">
+			<item name="save" xsi:type="array">
+				<item name="name" xsi:type="string">save</item>
+				<item name="label" xsi:type="string">Save</item>
+				<item name="class" xsi:type="string">primary</item>
+				<item name="url" xsi:type="string">*/*/save</item>
+			</item>
+		</item>
+		<item name="config" xsi:type="array">
+			<item name="dataScope" xsi:type="string">data</item>
+			<item name="namespace" xsi:type="string">labels_edit_page</item>
+		</item>
+    </argument>
+    <dataSource name="labels_edit_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">WDPH\ProductLabels\Model\UiForm\ViewFormDataProvider</argument>
+            <argument name="name" xsi:type="string">labels_edit_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">label_id</argument>
+            <argument name="requestFieldName" xsi:type="string">label_id</argument>
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="submit_url" xsi:type="url" path="*/*/save"/>
+				</item>
+			</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="label_details">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="label" xsi:type="string" translate="true">Label Details</item>
+                <item name="sortOrder" xsi:type="number">10</item>
+            </item>
+        </argument>
+		<field name="label_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="formElement" xsi:type="string">hidden</item>
+                    <item name="source" xsi:type="string">label_id</item>
+                    <item name="dataScope" xsi:type="string">label_id</item>
+					<item name="sortOrder" xsi:type="number">0</item>
+                </item>
+            </argument>
+        </field>
+        <field name="label_name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Label Name</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">label_name</item>
+                    <item name="dataScope" xsi:type="string">label_name</item>
+					<item name="sortOrder" xsi:type="number">10</item>
+					<item name="validation" xsi:type="array">
+						<item name="required-entry" xsi:type="boolean">true</item>
+					</item>
+                </item>
+            </argument>
+        </field>
+		<field name="store_ids">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">Magento\Cms\Ui\Component\Listing\Column\Cms\Options</item>
+				<item name="config" xsi:type="array">
+					<item name="dataType" xsi:type="string">int</item>
+					<item name="label" xsi:type="string" translate="true">Store View</item>
+					<item name="formElement" xsi:type="string">multiselect</item>
+					<item name="source" xsi:type="string">store_ids</item>
+					<item name="dataScope" xsi:type="string">store_ids</item>
+					<item name="default" xsi:type="string">0</item>
+					<item name="sortOrder" xsi:type="number">20</item>
+					<item name="validation" xsi:type="array">
+						<item name="required-entry" xsi:type="boolean">true</item>
+					</item>
+				</item>
+			</argument>
+		</field>
+		<field name="label_text">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Label Text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">label_text</item>
+                    <item name="dataScope" xsi:type="string">label_text</item>
+					<item name="sortOrder" xsi:type="number">30</item>
+                </item>
+            </argument>
+        </field>
+		<field name="label_attr">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">WDPH\ProductLabels\Model\LabelsGrid\Source\Attributes</item>
+				<item name="config" xsi:type="array">
+					<item name="label" xsi:type="string" translate="true">Label Attribute</item>
+					<item name="visible" xsi:type="boolean">true</item>
+					<item name="dataType" xsi:type="string">text</item>
+					<item name="formElement" xsi:type="string">select</item>
+					<item name="source" xsi:type="string">label_attr</item>
+					<item name="dataScope" xsi:type="string">label_attr</item>
+					<item name="sortOrder" xsi:type="number">40</item>
+				</item>
+			</argument>
+		</field>
+		<field name="label_status">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">WDPH\ProductLabels\Model\LabelsGrid\Source\Status</item>
+				<item name="config" xsi:type="array">
+					<item name="label" xsi:type="string" translate="true">Status</item>
+					<item name="visible" xsi:type="boolean">true</item>
+					<item name="dataType" xsi:type="string">number</item>
+					<item name="formElement" xsi:type="string">select</item>
+					<item name="source" xsi:type="string">label_status</item>
+					<item name="dataScope" xsi:type="string">label_status</item>
+					<item name="sortOrder" xsi:type="number">50</item>
+				</item>
+			</argument>
+		</field>
+		<field name="show_on_product_view_page">
+			<argument name="data" xsi:type="array">
+				<!--<item name="options" xsi:type="object">WDPH\ProductLabels\Model\LabelsGrid\Source\ShowOn</item>-->
+				<item name="config" xsi:type="array">
+					<item name="label" xsi:type="string" translate="true">Show on product view page</item>
+					<item name="visible" xsi:type="boolean">true</item>
+					<item name="dataType" xsi:type="string">boolean</item>
+					<item name="formElement" xsi:type="string">checkbox</item>
+					<item name="prefer" xsi:type="string">toggle</item>
+					<item name="source" xsi:type="string">show_on_product_view_page</item>
+					<item name="dataScope" xsi:type="string">show_on_product_view_page</item>
+					<item name="sortOrder" xsi:type="number">60</item>
+					<item name="valueMap" xsi:type="array">
+						<item name="true" xsi:type="string">1</item>
+						<item name="false" xsi:type="string">0</item>
+					</item>
+					<item name="default" xsi:type="string">1</item>
+				</item>
+			</argument>
+		</field>
+		<!--<field name="status_test">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="sortOrder" xsi:type="number">10</item>
+					<item name="dataType" xsi:type="string">boolean</item>
+					<item name="formElement" xsi:type="string">checkbox</item>
+					<item name="source" xsi:type="string">category</item>
+					<item name="prefer" xsi:type="string">toggle</item>
+					<item name="label" xsi:type="string" translate="true">Status Test</item>
+					<item name="valueMap" xsi:type="array">
+						<item name="true" xsi:type="string">1</item>
+						<item name="false" xsi:type="string">0</item>
+					</item>
+					<item name="validation" xsi:type="array">
+						<item name="required-entry" xsi:type="boolean">false</item>
+					</item>
+					<item name="default" xsi:type="string">1</item>
+				</item>
+			</argument>
+		</field>-->
+		<field name="show_on_product_list_page">
+			<argument name="data" xsi:type="array">
+				<item name="options" xsi:type="object">WDPH\ProductLabels\Model\LabelsGrid\Source\ShowOn</item>
+				<item name="config" xsi:type="array">
+					<item name="label" xsi:type="string" translate="true">Show on product list page</item>
+					<item name="visible" xsi:type="boolean">true</item>
+					<item name="dataType" xsi:type="string">boolean</item>
+					<item name="formElement" xsi:type="string">checkbox</item>
+					<item name="prefer" xsi:type="string">toggle</item>
+					<item name="source" xsi:type="string">show_on_product_list_page</item>
+					<item name="dataScope" xsi:type="string">show_on_product_list_page</item>
+					<item name="sortOrder" xsi:type="number">70</item>
+					<item name="valueMap" xsi:type="array">
+						<item name="true" xsi:type="string">1</item>
+						<item name="false" xsi:type="string">0</item>
+					</item>
+					<item name="default" xsi:type="string">0</item>
+				</item>
+			</argument>
+		</field>
+		<field name="new_label">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="label" xsi:type="string" translate="true">New Product Label</item>
+					<item name="visible" xsi:type="boolean">true</item>
+					<item name="dataType" xsi:type="string">boolean</item>
+					<item name="formElement" xsi:type="string">checkbox</item>
+					<item name="prefer" xsi:type="string">toggle</item>
+					<item name="source" xsi:type="string">new_label</item>
+					<item name="dataScope" xsi:type="string">new_label</item>
+					<item name="sortOrder" xsi:type="number">80</item>
+					<item name="valueMap" xsi:type="array">
+						<item name="true" xsi:type="string">1</item>
+						<item name="false" xsi:type="string">0</item>
+					</item>
+					<item name="default" xsi:type="string">0</item>
+				</item>
+			</argument>
+		</field>
+		<field name="sale_label">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="label" xsi:type="string" translate="true">Sale Product Label</item>
+					<item name="visible" xsi:type="boolean">true</item>
+					<item name="dataType" xsi:type="string">boolean</item>
+					<item name="formElement" xsi:type="string">checkbox</item>
+					<item name="prefer" xsi:type="string">toggle</item>
+					<item name="source" xsi:type="string">sale_label</item>
+					<item name="dataScope" xsi:type="string">sale_label</item>
+					<item name="sortOrder" xsi:type="number">90</item>
+					<item name="valueMap" xsi:type="array">
+						<item name="true" xsi:type="string">1</item>
+						<item name="false" xsi:type="string">0</item>
+					</item>
+					<item name="default" xsi:type="string">0</item>
+				</item>
+			</argument>
+		</field>
+		<field name="active_from">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="dataType" xsi:type="string">string</item>
+					<item name="label" xsi:type="string" translate="true">Active From</item>
+					<item name="formElement" xsi:type="string">date</item>
+					<item name="source" xsi:type="string">active_from</item>
+					<item name="dataScope" xsi:type="string">active_from</item>
+					<item name="sortOrder" xsi:type="number">100</item>
+					<item name="options" xsi:type="array">
+						<item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+						<item name="timeFormat" xsi:type="string">HH:mm:ss</item>
+						<item name="showsTime" xsi:type="boolean">true</item>
+					</item>
+				</item>
+			</argument>
+		</field>
+		<field name="active_to">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="dataType" xsi:type="string">string</item>
+					<item name="label" xsi:type="string" translate="true">Active To</item>
+					<item name="formElement" xsi:type="string">date</item>
+					<item name="source" xsi:type="string">active_to</item>
+					<item name="dataScope" xsi:type="string">active_to</item>
+					<item name="sortOrder" xsi:type="number">110</item>
+					<item name="options" xsi:type="array">
+						<item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+						<item name="timeFormat" xsi:type="string">HH:mm:ss</item>
+						<item name="showsTime" xsi:type="boolean">true</item>
+					</item>
+				</item>
+			</argument>
+		</field>
+		<field name="width_list">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Product List Label width</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">width_list</item>
+                    <item name="dataScope" xsi:type="string">width_list</item>
+					<item name="sortOrder" xsi:type="number">120</item>
+                </item>
+            </argument>
+        </field>
+		<field name="height_list">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Product List Label height</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">height_list</item>
+                    <item name="dataScope" xsi:type="string">height_list</item>
+					<item name="sortOrder" xsi:type="number">130</item>
+                </item>
+            </argument>
+        </field>
+		<field name="width_view">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Product View Label width</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">width_view</item>
+                    <item name="dataScope" xsi:type="string">width_view</item>
+					<item name="sortOrder" xsi:type="number">140</item>
+                </item>
+            </argument>
+        </field>
+		<field name="height_view">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Product View Label height</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">height_view</item>
+                    <item name="dataScope" xsi:type="string">height_view</item>
+					<item name="sortOrder" xsi:type="number">150</item>
+                </item>
+            </argument>
+        </field>
+		<field name="position_top">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Position Top</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">position_top</item>
+                    <item name="dataScope" xsi:type="string">position_top</item>
+					<item name="sortOrder" xsi:type="number">160</item>
+                </item>
+            </argument>
+        </field>
+		<field name="position_bottom">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Position Bottom</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">position_bottom</item>
+                    <item name="dataScope" xsi:type="string">position_bottom</item>
+					<item name="sortOrder" xsi:type="number">170</item>
+                </item>
+            </argument>
+        </field>
+		<field name="position_left">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Position Left</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">position_left</item>
+                    <item name="dataScope" xsi:type="string">position_left</item>
+					<item name="sortOrder" xsi:type="number">180</item>
+                </item>
+            </argument>
+        </field>
+		<field name="position_right">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Position Right</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">position_right</item>
+                    <item name="dataScope" xsi:type="string">position_right</item>
+					<item name="sortOrder" xsi:type="number">190</item>
+                </item>
+            </argument>
+        </field>
+		<field name="list_font_size">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Product List Label Font Size</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">list_font_size</item>
+                    <item name="dataScope" xsi:type="string">list_font_size</item>
+					<item name="sortOrder" xsi:type="number">200</item>
+                </item>
+            </argument>
+        </field>
+		<field name="view_font_size">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Product View Label Font Size</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">view_font_size</item>
+                    <item name="dataScope" xsi:type="string">view_font_size</item>
+					<item name="sortOrder" xsi:type="number">210</item>
+                </item>
+            </argument>
+        </field>
+		<field name="back_color">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Label Background Color</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">back_color</item>
+                    <item name="dataScope" xsi:type="string">back_color</item>
+					<item name="sortOrder" xsi:type="number">220</item>
+                </item>
+            </argument>
+        </field>
+		<field name="font_color">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Label Font Color</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">font_color</item>
+                    <item name="dataScope" xsi:type="string">font_color</item>
+					<item name="sortOrder" xsi:type="number">230</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+	<fieldset name="conditions">
+		<argument name="data" xsi:type="array">
+			<item name="config" xsi:type="array">
+				<item name="label" xsi:type="string" translate="true">Conditions</item>
+				<item name="collapsible" xsi:type="boolean">true</item>
+				<item name="sortOrder" xsi:type="number">20</item>
+			</item>
+		</argument>
+		<!--<container name="conditions_apply_to" >
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="sortOrder" xsi:type="number">10</item>
+				</item>
+			</argument>
+			<htmlContent name="block_promo_catalog_edit_tab_conditions" sortOrder="20">
+				<argument name="data" xsi:type="array">
+					<item name="wrapper" xsi:type="array">
+						<item name="label" xsi:type="string" translate="true">Conditions</item>
+						<item name="collapsible" xsi:type="boolean">true</item>
+						<item name="opened" xsi:type="boolean">false</item>
+					</item>
+				</argument>
+				<settings>
+					<wrapper>
+						<canShow>true</canShow>
+						<componentType>fieldset</componentType>
+					</wrapper>
+				</settings>
+				<block class="Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit\Tab\Conditions" name="promo_catalog_edit_tab"/>
+			</htmlContent>-->
+		</fieldset>
+</form>

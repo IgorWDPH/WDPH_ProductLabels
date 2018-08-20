@@ -16,8 +16,8 @@ class LabelsGrid extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 	
 	protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
 	{
-		$object->setData('store_ids', implode(',', $object->getData('store_ids')));
+		//$object->setData('store_ids', implode(',', $object->getData('store_ids')));
 		return parent::_beforeSave($object);
-	}	
+	}
 }
 ?>

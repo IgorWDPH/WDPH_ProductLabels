@@ -8,35 +8,47 @@ class Save extends \Magento\Backend\App\Action
     protected $cacheTypeList; 
     protected $jsHelper;
 	protected $labelsMainHelper;
+	protected $labelsFactory;
     
     public function __construct(Action\Context $context,
 								\Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
 								\Magento\Backend\Helper\Js $jsHelper,
+								\WDPH\ProductLabels\Model\ResourceModel\LabelsGrid\CollectionFactory $labelsFactory,
 								\WDPH\ProductLabels\Helper\Data $labelsMainHelper)
     {
 		$this->labelsMainHelper = $labelsMainHelper;
         $this->cacheTypeList = $cacheTypeList;
+        $this->labelsFactory = $labelsFactory;
         parent::__construct($context);
         $this->jsHelper = $jsHelper;
-    } 
+    }
     
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('WDPH_ProductLabels::save');
-    } 
+    }
     
     public function execute()
     {
-        $data = $this->getRequest()->getPostValue();        
+        $data = $this->getRequest()->getPostValue();
         $resultRedirect = $this->resultRedirectFactory->create();
-        if ($data)
-		{            
+        if($data)
+		{
+			/*$fl = fopen('/var/www/bravo/tst.txt', 'w+');
+			fwrite($fl, print_r($data, true));
+			fclose($fl);*/
             $model = $this->_objectManager->create('\WDPH\ProductLabels\Model\LabelsGrid');
             $id = $this->getRequest()->getParam('label_id');
             if($id)
 			{
                 $model->load($id);
-            }            
+            }
+            else
+            {
+	            /*$fl = fopen('/var/www/bravo/tst.txt', 'w+');
+	            fwrite($fl, $model->isSaveAllowed() . '#' . $model->isObjectNew());
+	            fclose($fl);*/
+            }
             try
 			{
 				if (isset($_FILES['image']) && !empty($_FILES['image']['name']) )
@@ -71,12 +83,14 @@ class Save extends \Magento\Backend\App\Action
 						}
 					}
 				}
+				$data['store_ids'] = implode(',', $data['store_ids']);
 				$model->setData($data);
-				$this->_eventManager->dispatch(
-					'labels_grid_prepare_save',
+				/*$this->_eventManager->dispatch(
+					'wdph_productlabels',
 					['grid' => $model, 'request' => $this->getRequest()]
-				); 
-                $model->save();
+				);*/
+				//$model->save();
+				$this->labelsFactory->create()->save($model);
                 $this->cacheTypeList->invalidate('full_page');
                 $this->messageManager->addSuccess(__('Label saved.'));
                 $this->_objectManager->get('\Magento\Backend\Model\Session')->setFormData(false);

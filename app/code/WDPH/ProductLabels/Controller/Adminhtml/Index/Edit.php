@@ -31,11 +31,14 @@ class Edit extends \Magento\Backend\App\Action
 
     public function execute()
     {
-        $id = $this->getRequest()->getParam('label_id');       
+        $id = $this->getRequest()->getParam('label_id');
         $model = $this->_objectManager->create('WDPH\ProductLabels\Model\LabelsGrid');
         if($id)
 		{
             $model->load($id);
+			/*$fl = fopen('/var/www/bravo/tst.txt', 'w+');
+			fwrite($fl, print_r($model->getData(), true));
+			fclose($fl);*/
             if (!$model->getId())
 			{
                 $this->messageManager->addError(__('This label no longer exists.'));                
@@ -47,11 +50,11 @@ class Edit extends \Magento\Backend\App\Action
         if(!empty($data))
 		{
             $model->setData($data);
-        } 
+        }
         $this->_coreRegistry->register('labels_grid', $model);
         $resultPage = $this->_initAction();        
         $resultPage->getConfig()->getTitle()->prepend(__('Labels'));
-        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? $model->getTitle() : __('New Label'));
+        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? $model->getLabelName() : __('New Label'));
         return $resultPage;
     }
 }

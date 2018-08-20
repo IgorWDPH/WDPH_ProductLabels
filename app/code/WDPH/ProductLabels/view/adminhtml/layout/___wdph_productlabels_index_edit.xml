@@ -9,8 +9,7 @@
 	</head>	
 	<body>		
 		<referenceContainer name="content">
-			<!--<block class="WDPH\ProductLabels\Block\Adminhtml\Grid\Edit" name="label_grid_edit"/>-->
-			<uiComponent name="labels_edit_page"/>
+			<block class="WDPH\ProductLabels\Block\Adminhtml\Grid\Edit" name="label_grid_edit"/>
 		</referenceContainer>
 	</body>
 </page>
