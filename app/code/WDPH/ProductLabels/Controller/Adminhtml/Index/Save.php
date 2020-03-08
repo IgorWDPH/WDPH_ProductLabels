@@ -4,21 +4,24 @@ namespace WDPH\ProductLabels\Controller\Adminhtml\Index;
 use Magento\Backend\App\Action;
  
 class Save extends \Magento\Backend\App\Action
-{    
-    protected $cacheTypeList; 
+{
+    protected $cacheTypeList;
     protected $jsHelper;
 	protected $labelsMainHelper;
 	protected $labelsFactory;
+	protected $labelsResource;
     
     public function __construct(Action\Context $context,
 								\Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
 								\Magento\Backend\Helper\Js $jsHelper,
-								\WDPH\ProductLabels\Model\ResourceModel\LabelsGrid\CollectionFactory $labelsFactory,
+								\WDPH\ProductLabels\Model\LabelsGrid $labelsFactory,
+								\WDPH\ProductLabels\Model\ResourceModel\LabelsGrid $labelsResource,
 								\WDPH\ProductLabels\Helper\Data $labelsMainHelper)
     {
 		$this->labelsMainHelper = $labelsMainHelper;
         $this->cacheTypeList = $cacheTypeList;
         $this->labelsFactory = $labelsFactory;
+	    $this->labelsResource = $labelsResource;
         parent::__construct($context);
         $this->jsHelper = $jsHelper;
     }
@@ -34,10 +37,7 @@ class Save extends \Magento\Backend\App\Action
         $resultRedirect = $this->resultRedirectFactory->create();
         if($data)
 		{
-			/*$fl = fopen('/var/www/bravo/tst.txt', 'w+');
-			fwrite($fl, print_r($data, true));
-			fclose($fl);*/
-            $model = $this->_objectManager->create('\WDPH\ProductLabels\Model\LabelsGrid');
+			$model = $this->labelsFactory;
             $id = $this->getRequest()->getParam('label_id');
             if($id)
 			{
@@ -45,13 +45,11 @@ class Save extends \Magento\Backend\App\Action
             }
             else
             {
-	            /*$fl = fopen('/var/www/bravo/tst.txt', 'w+');
-	            fwrite($fl, $model->isSaveAllowed() . '#' . $model->isObjectNew());
-	            fclose($fl);*/
+	            unset($data['label_id']);
             }
             try
 			{
-				if (isset($_FILES['image']) && !empty($_FILES['image']['name']) )
+				if(isset($_FILES['image']) && !empty($_FILES['image']['name']))
 				{				
 					$uploader = $this->_objectManager->create('\Magento\MediaStorage\Model\File\Uploader', ['fileId' => 'image']);
 					$uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
@@ -84,13 +82,12 @@ class Save extends \Magento\Backend\App\Action
 					}
 				}
 				$data['store_ids'] = implode(',', $data['store_ids']);
-				$model->setData($data);
 				/*$this->_eventManager->dispatch(
 					'wdph_productlabels',
 					['grid' => $model, 'request' => $this->getRequest()]
 				);*/
-				//$model->save();
-				$this->labelsFactory->create()->save($model);
+				$model->setData($data);
+				$this->labelsResource->save($model);
                 $this->cacheTypeList->invalidate('full_page');
                 $this->messageManager->addSuccess(__('Label saved.'));
                 $this->_objectManager->get('\Magento\Backend\Model\Session')->setFormData(false);

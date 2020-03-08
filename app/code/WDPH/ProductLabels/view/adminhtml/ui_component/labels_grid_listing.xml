@@ -19,8 +19,8 @@
 		<argument name="dataProvider" xsi:type="configurableObject"> 
 			<argument name="class" xsi:type="string">GridDataProvider</argument> 
 			<argument name="name" xsi:type="string">labels_grid_listing_data_source</argument>
-			<argument name="primaryFieldName" xsi:type="string">block_id</argument>
-			<argument name="requestFieldName" xsi:type="string">id</argument>
+			<argument name="primaryFieldName" xsi:type="string">label_id</argument>
+			<argument name="requestFieldName" xsi:type="string">label_id</argument>
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="update_url" xsi:type="url" path="mui/index/render"/>
